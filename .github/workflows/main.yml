@@ -28,3 +28,10 @@ jobs:
 
       - name: Build docker image
         run: docker build -t deboraserra/api-journey:${{steps.generate_sha.outputs.sha}} ./nlw-16/devops/app-journey
+
+      - name: Push image
+        run: |
+          docker push deboraserra/api-journey:${{steps.generate_sha.outputs.sha}}
+          docker tag deboraserra/api-journey:${{steps.generate_sha.outputs.sha}} deboraserra/api-journey:latest
+          docker push deboraserra/api-journey:latest
+
