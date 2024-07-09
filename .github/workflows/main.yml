@@ -15,5 +15,5 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build docker image
-        run: docker build -t deboraserra/api-journey:latest .
+        run: docker build -t deboraserra/api-journey:latest ./nlw/devops/app-journey
 
