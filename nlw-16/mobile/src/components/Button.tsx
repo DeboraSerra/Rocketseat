@@ -22,16 +22,18 @@ function Button({
   children,
   variant = "primary",
   isLoading,
+  className,
   ...props
 }: ButtonProps) {
   return (
     <TouchableOpacity
       className={clsx(
-        "rounded-lg w-full h-11 flex-row items-center justify-center gap-2",
+        "rounded-lg h-11 flex-row items-center justify-center gap-2",
         {
           "bg-lime-300": variant === "primary",
           "bg-zinc-800": variant === "secondary",
-        }
+        },
+        className,
       )}
       disabled={isLoading}
       activeOpacity={0.7}

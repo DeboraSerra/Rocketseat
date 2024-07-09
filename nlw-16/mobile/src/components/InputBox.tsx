@@ -117,8 +117,8 @@ export default function InputBox() {
       const newTrip = await tripServer.create({
         destination,
         emails_to_invite: emailList,
-        ends_at: selectedDates.endsAt?.dateString as string,
-        starts_at: selectedDates.startsAt?.dateString as string,
+        ends_at: dayjs(selectedDates.endsAt?.dateString).toString(),
+        starts_at: dayjs(selectedDates.startsAt?.dateString).toString(),
       });
 
       Alert.alert("Nova viagem", "Viagem criada com sucesso!", [

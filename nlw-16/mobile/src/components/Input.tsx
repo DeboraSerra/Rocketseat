@@ -23,10 +23,10 @@ function Input({ children, variant = "primary" }: InputProps) {
   );
 }
 
-function Field(props: TextInputProps) {
+function Field({ className, ...props}: TextInputProps) {
   return (
     <TextInput
-      className='flex-1 text-zinc-100 text-lg font-regular placeholder:text-zinc-400'
+      className={`flex-1 text-zinc-100 text-lg font-regular placeholder:text-zinc-400 ${className ?? ""}`}
       cursorColor={colors.zinc[100]}
       selectionColor={Platform.OS === "ios" ? colors.zinc[100] : undefined} //workaround pois cursorColor não funciona no ios
       {...props}
