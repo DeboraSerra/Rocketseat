@@ -10,9 +10,9 @@ function Input({ children, variant = "primary" }: InputProps) {
   return (
     <View
       className={clsx(
-        "w-full h-16 flex-row items-center gap-2",
+        "w-full h-16 flex-row items-center gap-2 rounded-lg px-4",
         {
-          "h-14 px-4 rounded-lg border border-zinc-800": variant === "primary",
+          "h-14 border border-zinc-800": variant === "primary",
         },
         { "bg-zinc-950": variant === "secondary" },
         { "bg-zinc-900": variant === "tertiary" }

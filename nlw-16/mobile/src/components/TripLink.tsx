@@ -1,0 +1,31 @@
+import { colors } from "@/style/colors";
+import * as Linking from "expo-linking";
+import { Link2 } from "lucide-react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+
+export type TripLinkProps = {
+  id: string;
+  title: string;
+  url: string;
+};
+
+export function TripLink({ id, title, url }: TripLinkProps) {
+  function handleLinkOpen() {
+    Linking.openURL(url);
+  }
+
+  return (
+    <View className='w-full flex-row items-center gap-4'>
+      <View className='flex-1'>
+        <Text className='text-zinc-100 text-base font-semibold'>{title}</Text>
+        <Text className='text-zinc-400 text-sm' numberOfLines={1}>
+          {url}
+        </Text>
+      </View>
+
+      <TouchableOpacity activeOpacity={0.7} onPress={handleLinkOpen}>
+        <Link2 color={colors.zinc[400]} size={20} />
+      </TouchableOpacity>
+    </View>
+  );
+}
