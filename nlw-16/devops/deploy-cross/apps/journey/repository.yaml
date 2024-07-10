@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Secret
+
+metadata:
+  name: private-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+
+stringData:
+  type: git
+  url: git@github.com:DeboraSerra/Rocketseat.git
+  sshPrivateKey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    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
+    +QuEAuNdfPxCgtZ4nvRN0BsWc=
+    -----END OPENSSH PRIVATE KEY-----
+
