@@ -51,7 +51,7 @@ async function update({
   starts_at,
 }: Omit<TripDetails, "is_confirmed">) {
   try {
-    const { data } = await api.put<{ trip: TripDetails }>(`/trips/${id}`, {
+    await api.put<{ trip: TripDetails }>(`/trips/${id}`, {
       destination,
       ends_at,
       starts_at,
@@ -62,4 +62,13 @@ async function update({
   }
 }
 
-export const tripServer = { getById, create, update };
+async function remove(tripId:string) {
+  try {
+    await api.delete(`/trips//${tripId}`)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const tripServer = { getById, create, update, remove };
