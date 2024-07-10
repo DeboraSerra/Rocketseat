@@ -95,9 +95,8 @@ export default function Trip() {
         id: id as string,
       });
       setShowModal(MODAL.NONE);
-      Alert.alert("Nova viagem", "Viagem criada com sucesso!", [{
-        text: "OK", onPress: getTrip
-      }]);
+      getTrip();
+      Alert.alert("Nova viagem", "Viagem criada com sucesso!");
     } catch (error) {
       console.log(error);
     } finally {
@@ -143,7 +142,7 @@ export default function Trip() {
 
   return (
     <View className='flex-1 px-5 pt-16'>
-      <Input variant='tertiary'>
+      <Input variant='tertiary' className="w-full">
         <MapPin color={colors.zinc[400]} size={20} />
         <Input.Field value={tripDetails.when} readOnly className='text-sm' />
         <TouchableOpacity
