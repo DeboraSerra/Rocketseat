@@ -38,4 +38,16 @@ async function confirmTripByParticipantId({
     throw error;
   }
 }
-export const participantsServer = { getByTripId, confirmTripByParticipantId };
+
+async function getById(participantId: string) {
+  try {
+    const { data } = await api.get<{ participant: Participant }>(
+      `/participants/${participantId}`
+    );
+    return data.participant;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+export const participantsServer = { getByTripId, confirmTripByParticipantId, getById };
