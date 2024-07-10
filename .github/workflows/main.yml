@@ -42,7 +42,7 @@ jobs:
           branch: release
           targetBranch: main
           createPR: true
-          valueFile: ./nlw-16/devops/app-journey/deploy/values.yaml
+          valueFile: ../nlw-16/devops/app-journey/deploy/values.yaml
           propertyPath: image.tag
           value: ${{steps.generate_sha.outputs.sha}}
           commitChange: true
