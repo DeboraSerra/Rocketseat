@@ -34,3 +34,15 @@ jobs:
           tags: |
             deboraserra/api-journey:${{steps.generate_sha.outputs.sha}}
             deboraserra/api-journey:latest
+
+      - name: Update image helm
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          branch: release
+          targetBranch: nlw-16-dev0ops
+          createPR: true
+          valueFile: "./nlw-16/devops/app-journey/deploy/values.yaml"
+          propertyPath: "image.tag"
+          value: ${{steps.generate_sha.outputs.sha}}
+          commitChange: true
+          message: "NEW: Updage tag in values helm"
