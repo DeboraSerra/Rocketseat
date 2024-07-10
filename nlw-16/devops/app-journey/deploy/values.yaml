@@ -2,7 +2,7 @@ replicaCount: 5
 image:
   repository: deboraserra/api-journey
   pullPolicy: IfNotPresent
-  tag: fc51364
+  tag: 277a1a3
   containerPort: 8080
 imagePullSecrets: []
 nameOverride: ''
