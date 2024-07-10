@@ -1,0 +1,26 @@
+{
+  "name": "nlw-journey",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.14.10",
+    "fastify-type-provider-zod": "^2.0.0",
+    "prisma": "^5.16.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.2",
+    "fastify": "^4.28.1",
+    "zod": "^3.23.8"
+  }
+}
