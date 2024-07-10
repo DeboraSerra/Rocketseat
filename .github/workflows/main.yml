@@ -39,7 +39,7 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           branch: release
-          targetBranch: nlw-16-dev0ops
+          targetBranch: main
           createPR: true
           valueFile: "./nlw-16/devops/app-journey/deploy/values.yaml"
           propertyPath: "image.tag"
