@@ -53,7 +53,7 @@ export default function Trip() {
 
     const starts_at = dayjs(trip.starts_at).format("DD");
     const ends_at = dayjs(trip.ends_at).format("DD");
-    const month = dayjs(trip.starts_at).format("MMM");
+    const month = dayjs(trip.ends_at).format("MMM");
 
     setDestination(trip.destination);
 
@@ -94,9 +94,10 @@ export default function Trip() {
         starts_at: dayjs(selectedDates.startsAt?.dateString).toString(),
         id: id as string,
       });
-      getTrip();
       setShowModal(MODAL.NONE);
-      Alert.alert("Nova viagem", "Viagem criada com sucesso!");
+      Alert.alert("Nova viagem", "Viagem criada com sucesso!", [{
+        text: "OK", onPress: getTrip
+      }]);
     } catch (error) {
       console.log(error);
     } finally {
