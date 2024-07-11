@@ -2,6 +2,8 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import nodemailer from "nodemailer";
 import { z } from "zod";
+import { ClientError } from "../../errors/client-error";
+import { createMessage } from "../../helpers/create-trip-message";
 import { dayjs } from "../../lib/dayJSFormatter";
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
@@ -37,7 +39,7 @@ export async function createTrip(app: FastifyInstance) {
         dayjs(starts_at).isBefore(dayjs()) ||
         dayjs(ends_at).isBefore(starts_at)
       ) {
-        throw new Error("Invalid dates")
+        throw new ClientError("Invalid dates");
       }
 
       const trip = await prisma.trip.create({
@@ -64,6 +66,12 @@ export async function createTrip(app: FastifyInstance) {
       });
 
       const mail = await getMailClient();
+      const newMessage = createMessage(
+        destination,
+        ends_at,
+        starts_at,
+        trip.id
+      );
 
       const message = await mail.sendMail({
         from: {
@@ -74,28 +82,8 @@ export async function createTrip(app: FastifyInstance) {
           name: owner_name,
           address: owner_email,
         },
-        subject: `Confirme sua viagem para ${destination}`,
-        html: `
-        <div style="font-size: 16px; font-family: sans-serif; line-height: 1.6">
-          <p>
-            Você solicitou a criação de uma viagem para <strong>${destination}</strong>,
-            nas datas de <strong>${dayjs(starts_at).format("LL")}</strong> a
-            <strong>${dayjs(ends_at).format("LL")}</strong>
-          </p>
-          <p></p>
-          <p>Para confirmar sua viagem, clique no link abaixo</p>
-          <p></p>
-          <p>
-            <a href="http://localhost:3333/trips/${trip.id}/confirm">
-              Confirmar viagem
-            </a>
-          </p>
-          <p></p>
-          <p>
-            Caso você não saiba do que se trata esse e-mail, apenas ignore esse e-mail
-          </p>
-        </div>
-        `.trim(),
+        subject: newMessage.subject,
+        html: newMessage.message,
       });
 
       console.log(nodemailer.getTestMessageUrl(message));

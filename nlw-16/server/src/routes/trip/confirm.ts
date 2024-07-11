@@ -2,7 +2,9 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import nodemailer from "nodemailer";
 import { z } from "zod";
-import { dayjs } from "../../lib/dayJSFormatter";
+import { env } from "../../env";
+import { ClientError } from "../../errors/client-error";
+import { createMessage } from "../../helpers/create-invite-message";
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
 
@@ -33,11 +35,11 @@ export async function confirmTrip(app: FastifyInstance) {
       });
 
       if (!trip) {
-        throw new Error("Trip not found");
+        throw new ClientError("Trip not found");
       }
 
       if (trip.is_confirmed) {
-        return res.redirect(`http://localhost:3000/trips/${tripId}`);
+        return res.redirect(`${env.WEB_BASE_URL}/trips/${tripId}`);
       }
 
       await prisma.trip.update({
@@ -52,38 +54,20 @@ export async function confirmTrip(app: FastifyInstance) {
 
       const messages = await Promise.all(
         trip.participants.map(async (p) => {
+          const newMessage = createMessage(
+            trip.destination,
+            trip.ends_at,
+            trip.starts_at,
+            p.id
+          );
           const message = await mail.sendMail({
             from: {
               name: "Equipe plann.er",
               address: "debs@planner.com",
             },
             to: p.email,
-            subject: `Confirme sua presença na viagem para ${trip.destination}`,
-            html: `
-          <div style="font-size: 16px; font-family: sans-serif; line-height: 1.6">
-            <p>
-              Você foi convidado para participar de uma viagem para <strong>${
-                trip.destination
-              }</strong>,
-              nas datas de <strong>${dayjs(trip.starts_at).format(
-                "LL"
-              )}</strong> a
-              <strong>${dayjs(trip.ends_at).format("LL")}</strong>
-            </p>
-            <p></p>
-            <p>Para confirmar sua presença na viagem, clique no link abaixo:</p>
-            <p></p>
-            <p>
-              <a href="http://localhost:3333/participants/${p.id}/confirm">
-                Confirmar viagem
-              </a>
-            </p>
-            <p></p>
-            <p>
-              Caso você não saiba do que se trata esse e-mail, apenas ignore esse e-mail
-            </p>
-          </div>
-          `.trim(),
+            subject: newMessage.subject,
+            html: newMessage.message,
           });
           return nodemailer.getTestMessageUrl(message);
         })
@@ -91,7 +75,7 @@ export async function confirmTrip(app: FastifyInstance) {
 
       console.log(messages);
 
-      return res.redirect(`http://localhost:3000/trips/${tripId}`);
+      return res.redirect(`${env.WEB_BASE_URL}/trips/${tripId}`);
     }
   );
 }

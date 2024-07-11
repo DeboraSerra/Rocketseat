@@ -13,10 +13,13 @@ import {
   getParticipants,
 } from "./routes/participants";
 import { confirmTrip, createTrip, getTrip, updateTrip } from "./routes/trip";
+import { errorHandler } from "./error-handler";
+import { env } from "./env";
 
 const app = fastify();
 
 app.register(cors, { origin: "*" });
+app.setErrorHandler(errorHandler);
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
@@ -37,6 +40,6 @@ app.register(getActivities);
 app.register(createLink);
 app.register(getLinks);
 
-app.listen({ port: 3333 }).then(() => {
+app.listen({ port: env.PORT }).then(() => {
   console.log("Server running");
 });
