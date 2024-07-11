@@ -9,9 +9,10 @@ import { createLink, getLinks } from "./routes/links";
 import {
   confirmParticipant,
   createInvite,
+  getOneParticipant,
   getParticipants,
 } from "./routes/participants";
-import { confirmTrip, createTrip, updateTrip } from "./routes/trip";
+import { confirmTrip, createTrip, getTrip, updateTrip } from "./routes/trip";
 
 const app = fastify();
 
@@ -23,9 +24,11 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(createTrip);
 app.register(confirmTrip);
 app.register(updateTrip);
+app.register(getTrip);
 
 app.register(confirmParticipant);
 app.register(getParticipants);
+app.register(getOneParticipant);
 app.register(createInvite);
 
 app.register(createActivity);
