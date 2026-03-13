@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "rockethelp",
+    "slug": "rockethelp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      "@react-native-firebase/app"
+    ],
+    "android": {
+      "package": "com.rocekthelp",
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "bundleIdentifier": "com.rocekthelp",
+      "googleServicesFile": "./GoogleService-Info.plist"
+    }
+  }
+}
